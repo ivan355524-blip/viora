@@ -952,16 +952,17 @@ step4:[
 
 function generateVioraCode(code1, code2, code3, luxuryCode){
 
-  // دمج الخطوات الثلاثة
-  let baseNumber = parseInt(code1 + code2 + code3 + "0");
+  // الكود الأساسي حسب النظام المتفق عليه
+  let baseCode = code1 + code2 + code3 + "0";
 
-  // يبدأ من 1000
-  let finalNumber = baseNumber + 1000;
-
-  // إذا بدون لمسة فخامة
+  // بدون لمسة فخامة
   if(luxuryCode === "0"){
-    return finalNumber.toString();
+    return baseCode;
   }
+
+  // مع لمسة فخامة (O / A / M / R / S)
+  return luxuryCode + baseCode;
+}
 
   // إذا يوجد لمسة فخامة (حرف)
   return luxuryCode + finalNumber;
@@ -1486,3 +1487,4 @@ setTimeout(() => {
 </script>
 </body>
 </html>
+
