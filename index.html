@@ -194,31 +194,43 @@ select{
     transform: translate(-50%, -50%) scale(1.25);
   }
   100% {
-  opacity: 0.55;
-  transform: translate(-50%, -50%) scale(1.3);
+  opacity: 0.45;
+  transform: translate(-50%, -50%) scale(1.25);
 }
 }
 
 @keyframes shineMove {
-  0% { left: -60%; opacity: 0; }
-  30% { opacity: 0.9; }
-  100% { left: 120%; opacity: 0; }
+  0% {
+    left: -60%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    left: 120%;
+    opacity: 0;
+  }
 }
 
 .logoShine {
-  position:absolute;
-  top:0;
-  height:100%;
-  width:40%;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 40%;
   background: linear-gradient(
     120deg,
     transparent,
-    rgba(255,215,0,0.6),
+    rgba(255,215,0,0.7),
     transparent
   );
-  animation: shineMove 2.2s ease forwards;
-  pointer-events:none;
-  will-change: transform, opacity;
+  animation: shineMove 4.5s ease forwards; /* ⚡ تظهر مرة واحدة ثم تتوقف */
+  animation-delay: 0.8s; /* تأخير حتى يظهر الشعار أولاً */
+  opacity: 0;
+  pointer-events: none;
 }
 /* ===== VIORA Text Animation ===== */
 
@@ -261,7 +273,7 @@ select{
   -webkit-text-fill-color: transparent;
 
   /* حد أسود للحروف */
-  -webkit-text-stroke: 0.6px rgba(0,0,0,0.7);
+  -webkit-text-stroke: 1px rgba(0,0,0,0.8);
 
   text-shadow:
     0 0 10px rgba(0,0,0,0.8),
@@ -272,7 +284,6 @@ select{
     textShine 6s linear infinite;
 
   z-index: 5;
-  will-change: transform, opacity;
 }
 /* ===== Cinematic Background Motion ===== */
 
@@ -291,8 +302,6 @@ select{
   left: 0;
   width: 100%;
   height: 100%;
-  
-  animation: cinematicBg 6s ease forwards;
   z-index: 0;
 }
 /* ===== Text Cinematic Glow ===== */
@@ -312,8 +321,8 @@ select{
   position:absolute;
   top:22%;
   left:50%;
-  width:420px;
-  height:420px;
+  width:260px;
+  height:260px;
   transform:translate(-50%,-50%);
   background: radial-gradient(circle, rgba(255,215,0,0.35), transparent 70%);
   animation: glowPulse 3s ease-in-out infinite alternate;
@@ -322,14 +331,7 @@ select{
 }
 /* ===== Gold Shine Sweep ===== */
 
-@keyframes goldSweep {
-  0% {
-    background-position: -300% center;
-  }
-  100% {
-    background-position: 300% center;
-  }
-}
+
 
 .vioraTitle {
   background-image: linear-gradient(
@@ -342,14 +344,40 @@ select{
   );
   background-size: 300% auto;
   animation:
-    vioraFadeUp 1.8s ease forwards,
-    goldSweep 6s linear infinite;
+  vioraFadeUp 1.5s ease forwards,
+animation-delay: 0.5s;
 }
-@media(max-width:768px){
-  .vioraTitle{
-    font-size:48px;
-  }
+#luxuryStar{
+  position:absolute;
+  top:50%;
+  left:0;
+  transform:translateY(-50%);
+  font-size:18px;
+  color:gold;
+  text-shadow:0 0 10px gold;
+  pointer-events:none;
+  transition:transform 0.03s linear;
 }
+  font-size:18px;
+  color:gold;
+  text-shadow:0 0 10px gold;
+  pointer-events:none;
+}
+
+@keyframes starMove{
+  0%{ left:-40px; }
+  100%{ left:100%; }
+}
+#luxuryText{
+display:inline-block;
+font-weight:bold;
+opacity:1;
+direction:ltr;
+unicode-bidi:plaintext;
+letter-spacing:2px;
+white-space:nowrap;
+}
+
 </style>
 </head>
 <body>
@@ -378,7 +406,7 @@ select{
   overflow:hidden;
 ">
 
-<img src="https://i.imgur.com/xRMc31A.png"
+  <img src="https://i.imgur.com/xRMc31A.png"
   style="
     position:absolute;
     top:50%;
@@ -386,12 +414,10 @@ select{
     width:100%;
     height:100%;
     object-fit:contain;
-    transform:translate(-50%,-50%) scale(1.25);
-    opacity:0.75;
-    filter: drop-shadow(0 0 80px rgba(255,215,0,1))
-        drop-shadow(0 0 120px rgba(255,215,0,0.6));
-    animation: cinematicFadeZoom 2.5s ease forwards;
-    will-change: transform, opacity;
+    transform:translate(-50%,-50%) scale(1.2);
+    opacity:0.55;
+filter: drop-shadow(0 0 25px rgba(255,215,0,0.4));
+    animation: cinematicFadeZoom 1.4s ease forwards;
   ">
 
   <div class="logoShine"></div>
@@ -403,6 +429,8 @@ select{
 <div style="
   position:absolute;
   top:30%;
+  left:50%;
+  transform:translateX(-50%);
   width:100%;
   text-align:center;
   font-size:20px;
@@ -410,10 +438,13 @@ select{
   color:#e6c46e;
   text-shadow:0 0 10px rgba(230,196,110,0.6);
   -webkit-text-stroke: 0.6px rgba(0,0,0,0.7);
-  animation:vioraFadeUp 2.2s ease forwards;
-  z-index:5;
+  z-index:20;
 ">
-  Luxury in Every Note
+
+  <span id="luxuryText" dir="ltr"></span>
+
+  <div id="luxuryStar" style="z-index:22;">✦</div>
+
 </div>
 </div>
 <button id="musicBtn" onclick="toggleMusic()">🎵</button>
@@ -422,7 +453,7 @@ select{
 <script>
 // =============================
 // Sparkles
-for(let i=0;i<80;i++){let s=document.createElement("div");s.className="sparkle";s.style.top=Math.random()*100+"%";s.style.left=Math.random()*100+"%";document.body.appendChild(s);}
+for(let i=0;i<35;i++){let s=document.createElement("div");s.className="sparkle";s.style.top=Math.random()*100+"%";s.style.left=Math.random()*100+"%";document.body.appendChild(s);}
 
 // =============================
 // Background Images (Luxury Perfumes)
@@ -490,7 +521,9 @@ function render(html){
       appEl.style.opacity = 1;
     });
 
-    changeBackground();
+    if(window.appStarted){
+  changeBackground();
+}
 
     // إعادة busy بعد انتهاء fade-in
     setTimeout(()=>{ appEl.dataset.busy = "false"; }, 300);
@@ -506,12 +539,20 @@ function navigate(fn,args=[]){
 
   fn(...args);
 }
-function back(){if(stack.length>1){stack.pop();let last=stack[stack.length-1];last.fn(...last.args);}}
+function back(){
+  if(window.stack && window.stack.length > 1){
+    window.stack.pop();
+    let last = window.stack[window.stack.length - 1];
+    last.fn(...last.args);
+  }
+}
+
 function home(){
-  stack=[];
-  navigate(showHome,[]);
+  window.stack = [];
+  navigate(showHome, []);
 }
 function startApp(){
+window.appStarted = true;
   const introLayer = document.getElementById("introLayer");
 
   introLayer.style.opacity = "0";
@@ -536,22 +577,48 @@ function showStart(){render(`<div class="logo">VIORA</div>`);}
 // =============================
 // Home
 function showHome(){
-  render(`<h2>اختر القسم</h2>
 
-<div class="card" onclick="navigate(showFrenchPerfumes)">
-عطور فرنسية فاخرة
+render(`
+<h2>VIORAابدأ رحلتك مع </h2>
+<p>Luxury Experience Selection</p>
+
+<div class="card" onclick="navigate(customPerfume,['نسائي'])">
+صممي عطرك بلمستك الخاصة<br>
+Design Your Perfume (Women)
 </div>
 
-<div class="card" onclick="navigate(showReady,['رجالي'])">
-عطور رجالية
+<div class="card" onclick="navigate(customPerfume,['رجالي'])">
+صمم عطرك بلمستك الخاصة<br>
+Design Your Perfume (Men)
 </div>
 
 <div class="card" onclick="navigate(showReady,['نسائي'])">
-عطور نسائية
+عطور نسائية تركيب<br>
+Women Blended Perfumes
+</div>
+
+<div class="card" onclick="navigate(showReady,['رجالي'])">
+عطور رجالية تركيب<br>
+Men Blended Perfumes
 </div>
 
 <div class="card" onclick="navigate(showKids)">
-عطور أطفال
+عطور أطفال<br>
+Kids Perfumes
+</div>
+
+<div class="card" onclick="navigate(showFrenchPerfumes)">
+عطور أجنبية جاهزة<br>
+Imported Perfumes
+</div>
+
+<div class="card" onclick="navigate(showLuxuryUltra)">
+Luxury Ultra<br>
+فاخر جداً
+</div>
+<div class="card" onclick="navigate(customNamePerfume,[])">
+  إختر اسم عطر محدد<br>
+  Design Your Custom Named Perfume
 </div>
 
 <div class="card" onclick="showOrderSummary()">
@@ -591,10 +658,34 @@ let perfumesWomen=[
   {ar:"كريستال",en:"Crystal"}
 ];
 let perfumesKids=[{ar:"بيبي تاتش",en:"Baby Touch"},{ar:"كيدز فريش",en:"Kids Fresh"},{ar:"ليتل ستار",en:"Little Star"},{ar:"سويت بيبي",en:"Sweet Baby"},{ar:"تيني لوف",en:"Tiny Love"},{ar:"سوف كيدز",en:"Soft Kids"},{ar:"هابي كيد",en:"Happy Kid"},{ar:"ميني جوي",en:"Mini Joy"},{ar:"انجل بيبي",en:"Angel Baby"},{ar:"بيور تشايلد",en:"Pure Child"}];
+let luxuryUltra = [
+  {ar:"توباكو عود",en:"Tobacco Oud"},
+  {ar:"عود ملكي خاص",en:"Royal Oud Exclusive"},
+  {ar:"امبريال مسك",en:"Imperial Musk"},
+  {ar:"العنبر الأسود",en:"Black Amber"},
+  {ar:"روز عتيق",en:"Vintage Rose"},
+  {ar:"جلد فاخر",en:"Luxury Leather"},
+  {ar:"خشب الصندل الملكي",en:"Royal Sandalwood"},
+  {ar:"زعفران شرقي",en:"Oriental Saffron"}
+];
 
-// =============================
+function showLuxuryUltra(){
+currentCategory = "Luxury Ultra";
+  let html = `<h2>Luxury Ultra</h2>`;
+
+  luxuryUltra.forEach(p=>{
+    html += `<div class="card" onclick="navigate(readyQty,['${p.ar}','${p.en}',''])">
+      ${p.ar} - ${p.en}
+    </div>`;
+  });
+
+  html += navButtons();
+  render(html);
+}
+  // =============================
 // Ready perfumes with corrected confirm button
 function showReady(type){
+currentCategory = type;
   let list = type==="رجالي" ? perfumesMen : perfumesWomen;
   let html = `<h2>${type}</h2>`;
 
@@ -602,16 +693,16 @@ function showReady(type){
     html += `<div class="card" onclick="navigate(readyQty,['${p.ar}','${p.en}','${p.en}'])">${p.ar} - ${p.en}</div>`;
   });
 
-  let customText = type==="نسائي" ? "صممي عطرك بنفسك" : "صمم عطرك بنفسك";
-  html += `<div class="card" onclick="navigate(customPerfume,['${type}'])">${customText}</div>`;
+  
   html += navButtons();
   render(html);
 }
 function showKids(){
+currentCategory = "أطفال";
   let html = `<h2>عطور أطفال</h2>`;
 
   perfumesKids.forEach(p=>{
-    html+=`<div class="card" onclick="navigate(readyQty,['${p.ar}','${p.en}','${Math.floor(100+Math.random()*900)}'])">${p.en ? p.ar + " - " + p.en : p.ar}</div>`;
+    html+=`<div class="card" onclick="navigate(readyQty,['${p.ar}','${p.en}',''])">${p.en ? p.ar + " - " + p.en : p.ar}</div>`;
   });
 
   html += navButtons();
@@ -640,7 +731,7 @@ function showFrenchPerfumes(){
   let html = `<h2>عطور فرنسية فاخرة</h2>`;
 html += `<h3 style="margin-top:20px;">رجالي</h3>`;
 frenchPerfumes.men.forEach(p => {
-  html += `<div class="card" onclick="navigate(readyFrench,['${p.ar}','${p.en}','${p.code}'])">
+  html += `<div class="card" onclick="navigate(readyFrench,['${p.ar}','${p.en}','${p.code}','رجالي'])">
     ${p.ar} - ${p.en}
   </div>`;
 });
@@ -658,7 +749,7 @@ frenchPerfumes.men.forEach(p => {
 `;
 html += `<h3 style="margin-top:20px;">نسائي</h3>`;
 frenchPerfumes.women.forEach(p => {
-  html += `<div class="card" onclick="navigate(readyFrench,['${p.ar}','${p.en}','${p.code}'])">
+  html += `<div class="card" onclick="navigate(readyFrench,['${p.ar}','${p.en}','${p.code}','نسائي'])">
     ${p.ar} - ${p.en}
   </div>`;
 });
@@ -674,7 +765,8 @@ frenchPerfumes.women.forEach(p => {
 }
 // =============================
 // العطور الفرنسية الجاهزة بدون خطوات إضافية
-function readyFrench(nameAr, nameEn, code){
+function readyFrench(nameAr, nameEn, code, gender){
+  currentCategory = "جاهزة أجنبية " + gender;
   let html = `
     <h3>${nameAr} - ${nameEn}</h3>
     <h3>اختر عدد العبوات</h3>
@@ -707,12 +799,12 @@ function confirmFrench(nameAr, nameEn, code){
   let orderCode = "FR-" + Math.floor(1000 + Math.random()*9000);
 
   orders.push({
-    orderCode,
     nameAr,
     nameEn,
-    code,
-    sizes
-  });
+    code: "",
+    sizes,
+    category: currentCategory
+});
 
   showOrderSummary();
 }
@@ -780,106 +872,169 @@ function confirmReadySizes(nameAr,nameEn,code){
 
   let sizeText = sizes.join(" | ");
 
-  finish(nameAr,nameEn,code,sizeText);
+  finish(nameAr,nameEn,"",sizeText);
 }
 // =============================
 // Custom Perfume V8
 let customOptions={
-  "رجالي":{
-    step1:[
-      {ar:"رياضي فاخر",en:"Luxury Sport",code:"M001"},
-      {ar:"كلاسيكي رسمي",en:"Classic Formal",code:"M002"},
-      {ar:"أنيق عصري",en:"Modern Elegant",code:"M003"},
-      {ar:"سبور كلاسيك",en:"Sport Classic",code:"M004"},
-       {ar:"رقي ليلي",en:"Evening Sophistication",code:"M005"},
-      {ar:"فاخر رسمي",en:"Formal Luxury",code:"M006"},
-      {ar:"أنيق يومي",en:"Daily Elegance",code:"M007"},
-      {ar:"كلاسيكي فاخر",en:"Classic Luxury",code:"M008"},
-      {ar:"سبور عصري",en:"Modern Sport",code:"M009"},
-      {ar:"رقي عصري",en:"Contemporary Sophistication",code:"M010"}
-    ],
-    step2:[
-      {ar:"قوي وجريء",en:"Strong & Bold",code:"M011"},
-      {ar:"رومانسي",en:"Romantic",code:"M012"},
-      {ar:"حكيم ومتزن",en:"Wise & Balanced",code:"M013"},
-      {ar:"مغامر",en:"Adventurous",code:"M014"},
-      {ar:"راقي وأنيق",en:"Sophisticated & Elegant",code:"M015"}
-    ],
-    step3:[
-      {ar:"نفحات التوابل",en:"Spicy Hints",code:"M016"},
-      {ar:"عبير الخشب",en:"Woody Aroma",code:"M017"},
-      {ar:"رائحة الجلد",en:"Leather Scent",code:"M018"}
-    ],
-    step4:[
-      {ar:"عود فاخر",en:"Luxury Oud",code:"M019"},
-      {ar:"عنبر ملكي",en:"Royal Amber",code:"M020"},
-      {ar:"مسك ناعم",en:"Soft Musk",code:"M021"},
-      {ar:"ياسمين ملكي",en:"Royal Jasmine",code:"M022"},
-      {ar:"زهور شرقية",en:"Oriental Flowers",code:"M023"}
-    ]
-  },
-  "نسائي":{
-    step1:[
-      {ar:"أنيق كلاسيك",en:"Classic Elegant",code:"F001"},
-      {ar:"فاخر عصري",en:"Modern Luxury",code:"F002"},
-      {ar:"سبور شيك",en:"Chic Sport",code:"F003"},
-      {ar:"رقي رسمي",en:"Formal Sophistication",code:"F004"},
-      {ar:"أنيق ليلي",en:"Evening Elegance",code:"F005"},
-      {ar:"كلاسيكي فاخر",en:"Luxury Classic",code:"F006"},
-      {ar:"سبور عصري",en:"Modern Sport",code:"F007"},
-      {ar:"رقي يومي",en:"Daily Sophistication",code:"F008"},
-      {ar:"أنيق رسمي",en:"Formal Elegance",code:"F009"},
-      {ar:"فاخر كلاسيك",en:"Classic Luxury",code:"F010"}
-    ],
-    step2:[
-      {ar:"رقيقة وأنثوية",en:"Delicate & Feminine",code:"F011"},
-      {ar:"رومانسية وجذابة",en:"Romantic & Charming",code:"F012"},
-      {ar:"ذكية ومتوازنة",en:"Smart & Balanced",code:"F013"},
-      {ar:"مغامرة أنثوية",en:"Feminine Adventurous",code:"F014"},
-      {ar:"راقية وأنيقة",en:"Sophisticated & Elegant",code:"F015"}
-    ],
-    step3:[
-      {ar:"عبير الزهور",en:"Floral Aroma",code:"F016"},
-      {ar:"نفحات الفواكه",en:"Fruity Hints",code:"F017"},
-      {ar:"رقة الحرير",en:"Silky Softness",code:"F018"}
-    ],
-    step4:[
-      {ar:"عود فاخر",en:"Luxury Oud",code:"F019"},
-      {ar:"عنبر ملكي",en:"Royal Amber",code:"F020"},
-      {ar:"مسك ناعم",en:"Soft Musk",code:"F021"},
-      {ar:"ياسمين ملكي",en:"Royal Jasmine",code:"F022"},
-      {ar:"زهور شرقية",en:"Oriental Flowers",code:"F023"}
-    ]
-  }
-};
 
+"رجالي":{
+
+step1:[
+{ar:"أنيق وعصري",en:"Modern Elegant",code:"1"},
+{ar:"كلاسيكي فاخر",en:"Classic Luxury",code:"2"},
+{ar:"رياضي منعش",en:"Sport Fresh",code:"3"},
+{ar:"ليلي جذاب",en:"Night Seductive",code:"4"},
+{ar:"يومي مريح",en:"Daily Comfort",code:"5"}
+],
+
+step2:[
+{ar:"هادئ ومريح",en:"Calm & Soft",code:"1"},
+{ar:"منعش وحيوي",en:"Fresh & Energetic",code:"2"},
+{ar:"دافئ وجذاب",en:"Warm & Attractive",code:"3"}
+],
+
+step3:[
+{ar:"خشبي",en:"Woody",code:"1"},
+{ar:"جلدي",en:"Leather",code:"2"},
+{ar:"فاكهي",en:"Fruity",code:"3"},
+{ar:"عطري منعش",en:"Aromatic Fresh",code:"4"}
+],
+
+step4:[
+{ar:"بدون لمسة إضافية",en:"Pure Blend",code:"0"},
+{ar:"عود ملكي",en:"Royal Oud",code:"O"},
+{ar:"عنبر فاخر",en:"Luxury Amber",code:"A"},
+{ar:"مسك مخملي",en:"Velvet Musk",code:"M"},
+{ar:"ورد فاخر",en:"Premium Rose",code:"R"},
+{ar:"خشب الصندل",en:"Sandalwood",code:"S"}
+]
+
+},
+
+"نسائي":{
+
+step1:[
+{ar:"أنيق وعصري",en:"Modern Elegant",code:"1"},
+{ar:"كلاسيكي فاخر",en:"Classic Luxury",code:"2"},
+{ar:"رياضي منعش",en:"Sport Fresh",code:"3"},
+{ar:"ليلي جذاب",en:"Night Seductive",code:"4"},
+{ar:"يومي مريح",en:"Daily Comfort",code:"5"}
+],
+
+step2:[
+{ar:"هادئ ومريح",en:"Calm & Soft",code:"1"},
+{ar:"منعش وحيوي",en:"Fresh & Energetic",code:"2"},
+{ar:"دافئ وجذاب",en:"Warm & Attractive",code:"3"}
+],
+
+step3:[
+{ar:"خشبي",en:"Woody",code:"1"},
+{ar:"جلدي",en:"Leather",code:"2"},
+{ar:"فاكهي",en:"Fruity",code:"3"},
+{ar:"عطري منعش",en:"Aromatic Fresh",code:"4"}
+],
+
+step4:[
+{ar:"بدون لمسة إضافية",en:"Pure Blend",code:"0"},
+{ar:"عود ملكي",en:"Royal Oud",code:"O"},
+{ar:"عنبر فاخر",en:"Luxury Amber",code:"A"},
+{ar:"مسك مخملي",en:"Velvet Musk",code:"M"},
+{ar:"ورد فاخر",en:"Premium Rose",code:"R"},
+{ar:"خشب الصندل",en:"Sandalwood",code:"S"}
+]
+
+}
+
+};
+// =============================
+// VIORA Smart Code Generator
+
+function generateVioraCode(code1, code2, code3, luxuryCode){
+
+  // دمج الخطوات الثلاثة
+  let baseNumber = parseInt(code1 + code2 + code3 + "0");
+
+  // يبدأ من 1000
+  let finalNumber = baseNumber + 1000;
+
+  // إذا بدون لمسة فخامة
+  if(luxuryCode === "0"){
+    return finalNumber.toString();
+  }
+
+  // إذا يوجد لمسة فخامة (حرف)
+  return luxuryCode + finalNumber;
+}
 // =============================
 // باقي الكود كما هو
 function customPerfume(type){
+currentCategory = type + " تصميم خاص";
   let step=customOptions[type].step1;
   let html="<h3>اختر الطابع الأساسي</h3>";
   step.forEach(s=>{html+=`<div class="card" onclick="navigate(customStep2,['${type}','${s.ar}','${s.en}','${s.code}'])">${s.ar} - ${s.en} [${s.code}]</div>`;});
   html+=navButtons();render(html);
 }
 function customStep2(type,ar,en,code){
-  let step=customOptions[type].step2;
-  let html="<h3>اختر حسب الصفات</h3>";
-  step.forEach(s=>{html+=`<div class="card" onclick="navigate(customStep3,['${type}','${ar} - ${s.ar}','${en} - ${s.en}','${code} + ${s.code}'])">${s.ar} - ${s.en} [${s.code}]</div>`;});
-  html+=navButtons();render(html);
+  let step = customOptions[type].step2;
+  let html = "<h3>اختر حسب الصفات</h3>";
+  step.forEach(s => {
+    html += `<div class="card" onclick="navigate(customStep3,['${type}','${ar} - ${s.ar}','${en} - ${s.en}','${code}${s.code}'])">
+      ${s.ar} - ${s.en} [${s.code}]
+    </div>`;
+  });
+  html += navButtons();
+  render(html);
 }
 function customStep3(type,ar,en,code){
-  let step=customOptions[type].step3;
-  let html="<h3>ميول الرائحة</h3>";
-  step.forEach(s=>{html+=`<div class="card" onclick="navigate(customStep4,['${type}','${ar} - ${s.ar}','${en} - ${s.en}','${code} + ${s.code}'])">${s.ar} - ${s.en} [${s.code}]</div>`;});
-  html+=navButtons();render(html);
+  let step = customOptions[type].step3;
+  let html = "<h3>ميول الرائحة</h3>";
+  step.forEach(s => {
+    html += `<div class="card" onclick="navigate(customStep4,['${type}','${ar} - ${s.ar}','${en} - ${s.en}','${code}${s.code}'])">
+      ${s.ar} - ${s.en} [${s.code}]
+    </div>`;
+  });
+  html += navButtons();
+  render(html);
 }
 function customStep4(type,ar,en,code){
-  let step=customOptions[type].step4;
-  let html="<h3>لمسة الفخامة</h3>";
-  step.forEach(s=>{html+=`<div class="card" onclick="navigate(customPower,['${type}','${ar} - ${s.ar}','${en} - ${s.en}','${code} + ${s.code}'])">${s.ar} - ${s.en} [${s.code}]</div>`;});
-  html+=navButtons();render(html);
+  let step = customOptions[type].step4;
+  let html = "<h3>لمسة الفخامة</h3>";
+  step.forEach(s => {
+    html += `<div class="card" onclick="navigate(customPower,['${type}','${ar} - ${s.ar}','${en} - ${s.en}','${code}','${s.code}'])">
+      ${s.ar} - ${s.en} [${s.code}]
+    </div>`;
+  });
+  html += navButtons();
+  render(html);
 }
-function customPower(type,ar,en,code){render(`<h3>اختر القوة</h3><div class="card" onclick="navigate(customSize,['${type}','${ar}','${en}','${code} - خفيف'])">خفيف</div><div class="card" onclick="navigate(customSize,['${type}','${ar}','${en}','${code} - متوسط'])">متوسط</div><div class="card" onclick="navigate(customSize,['${type}','${ar}','${en}','${code} - قوي'])">قوي وثابت</div>${navButtons()}`);}
+function customPower(type,ar,en,baseCode,luxuryCode){
+
+  let finalCode = generateVioraCode(
+    baseCode[0],
+    baseCode[1],
+    baseCode[2],
+    luxuryCode
+  );
+
+  render(`
+    <h3>مستوى الثبات والانتشار</h3>
+
+    <div class="card" onclick="navigate(customSize,['${type}','${ar}','${en}','${finalCode} - Soft'])">
+      المستوى 1 – Soft – خفيف
+    </div>
+
+    <div class="card" onclick="navigate(customSize,['${type}','${ar}','${en}','${finalCode} - Balanced'])">
+      المستوى 2 – Balanced – متوسط
+    </div>
+
+    <div class="card" onclick="navigate(customSize,['${type}','${ar}','${en}','${finalCode} - Intense'])">
+      المستوى 3 – Intense – قوي
+    </div>
+
+    ${navButtons()}
+  `);
+}
 function customSize(type,ar,en,code){
   let html = `
   <h3>اختر عدد العبوات</h3>
@@ -904,14 +1059,141 @@ function customSize(type,ar,en,code){
   // مهم: إظهار حجم العبوة مباشرة حتى لو العدد = 1
  setTimeout(renderBottleSizeSelectors,300);
 }
+function customNamePerfume(){
+
+  let html = `
+    <h3>اختر اسم عطرك</h3>
+
+    <input 
+      type="text" 
+      id="customPerfumeName" 
+      placeholder="اسم العطر هنا"
+      style="
+        padding:10px;
+        border-radius:10px;
+        border:1px solid gold;
+        background:#111;
+        color:gold;
+        font-style:italic;
+        font-family:'Playfair Display', serif;
+        width:80%;
+        margin-top:15px;
+      "
+    >
+
+    <label style="display:block;margin-top:20px;font-weight:bold">
+      القسم
+    </label>
+
+    <select id="customGender" style="
+        width:80%;
+        padding:10px;
+        border-radius:10px;
+        margin-top:10px;
+        background:#111;
+        color:gold;
+        border:1px solid gold;
+    ">
+      <option value="نسائي">نسائي</option>
+      <option value="رجالي">رجالي</option>
+    </select>
+
+    <br><br>
+
+    <h3>اختر عدد العبوات</h3>
+
+    <select id="qty" onchange="renderCustomBottleSizeSelectors()">
+      <option value="1" selected>1 عبوة</option>
+      <option value="2">2 عبوة</option>
+      <option value="3">3 عبوات</option>
+      <option value="4">4 عبوات</option>
+      <option value="5">5 عبوات</option>
+    </select>
+
+    <div id="bottleSizes" style="margin-top:20px;"></div>
+
+    <br>
+    <button onclick="confirmCustomName()">تأكيد</button>
+
+    ${navButtons()}
+  `;
+
+  render(html);
+
+  setTimeout(renderCustomBottleSizeSelectors, 300);
+}
+// توليد قائمة حجم العبوات
+function renderCustomBottleSizeSelectors(){
+  let qty = parseInt(document.getElementById("qty").value);
+  let container = document.getElementById("bottleSizes");
+  let html = "<h4>اختر حجم كل عبوة</h4>";
+
+  for(let i=1; i<=qty; i++){
+    html += `
+      <div style="margin-bottom:10px;">
+        عبوة ${i} :
+        <select id="size_${i}">
+          <option>20ml</option>
+          <option>40ml</option>
+          <option>50ml</option>
+          <option>100ml</option>
+          <option>150ml</option>
+          <option>200ml</option>
+        </select>
+      </div>
+    `;
+  }
+container.innerHTML = html;
+}
 // مصفوفة عامة لحفظ الطلبات
 let orders = [];
+let currentCategory = "";
+// ===================
+// تأكيد طلب "اسم عطر خاص"
+function confirmCustomName(){
+
+  let name = document.getElementById("customPerfumeName").value.trim();
+
+  if(name === ""){
+    name = "عطر مخصص";
+  }
+
+  let qty = parseInt(document.getElementById("qty").value);
+  let sizes = [];
+
+  for(let i=1; i<=qty; i++){
+    let el = document.getElementById(`size_${i}`);
+    if(el){
+      sizes.push(el.value.trim());
+    }
+  }
+
+  // حماية في حال لم يتم اختيار أحجام
+  if(sizes.length === 0){
+    sizes.push("40ml");
+  }
+
+  // تحديد القسم
+  let gender = document.getElementById("customGender").value;
+currentCategory = "اسم مخصص - " + gender;
+
+  // حفظ الطلب
+  orders.push({
+    nameAr: name,
+    nameEn: "",
+    code: "",
+    sizes,
+    category: currentCategory
+  });
+
+  showOrderSummary();
+}
 // ===================
 // الدالة الناقصة (سبب توقف زر التأكيد)
 function finish(nameAr, nameEn, code, sizeText){
 
   // إنشاء كود طلب
-  let orderCode = "VR-" + Math.floor(1000 + Math.random()*9000);
+  let orderCode = "VR-" + Math.floor(1000 + Math.random()*9000)
 
   // حفظ الطلب
   orders.push({
@@ -919,9 +1201,11 @@ function finish(nameAr, nameEn, code, sizeText){
   nameAr,
   nameEn,
   code,
-  sizes: sizeText.split("|").map(s=>s.trim())
+  sizes: sizeText.split("|").map(s=>s.trim()),
+  category: currentCategory
 });
   // عرض صفحة ملخص الطلبات
+  
   showOrderSummary();
 }
 // ===================
@@ -979,28 +1263,38 @@ function renderBottleSizeSelectors(){
 // ===================
 // تأكيد الطلب + حفظه
 function confirmBottleSelection(nameAr,nameEn,code){
-  let qty = parseInt(document.getElementById("qty").value);
   let sizes = [];
+let qty = parseInt(document.getElementById("qty").value);
 
-  for(let i=1; i<=qty; i++){
-    sizes.push(document.getElementById(`size_${i}`).value);
+for(let i=1; i<=qty; i++){
+  let el = document.getElementById(`size_${i}`);
+  if(el){
+    sizes.push(el.value.trim());
   }
+}
 
-  let orderCode = "VR-" + Math.floor(1000 + Math.random()*9000);
+// حماية إضافية: إذا لم يتم اختيار أي حجم
+if(sizes.length === 0){
+  sizes.push("40ml");
+}
 
   orders.push({
-    orderCode,
     nameAr,
     nameEn,
     code,
-    sizes
-  });
+    sizes,
+    category: currentCategory
+});
 
   showOrderSummary();
 }
 // ===================
 // صفحة ملخص الطلبات مع حذف طلب + إضافة طلب جديد + إرسال واتساب
 function showOrderSummary(){
+if(!window.stack) window.stack = [];
+if(window.stack.length === 0 || window.stack[window.stack.length-1].fn !== showOrderSummary){
+  window.stack.push({fn: showOrderSummary, args: []});
+}
   let html = `<h2>طلباتك الحالية</h2>`;
 
   if(orders.length === 0){
@@ -1014,9 +1308,9 @@ function showOrderSummary(){
 
   orders.forEach((o,i)=>{
     html += `<div class="card">
-      <h3>${o.nameAr} - ${o.nameEn}</h3>
+      <h3>${o.code ? "تصميم خاص" : o.nameAr + (o.nameEn ? " - " + o.nameEn : "")}</h3>
       <p>رمز: ${o.code}</p>
-      <small>كود الطلب: ${o.orderCode}</small>
+      
       <hr>
       <h4>العبوات:</h4>
     `;
@@ -1036,15 +1330,45 @@ function showOrderSummary(){
     html += `</div>`;
   });
 
-  let waText = orders.map(o=>{
-    let sizesText = o.sizes.map((s,i)=>`عبوة ${i+1}: ${s}`).join(" | ");
-    return `${o.orderCode} ${o.nameAr} ${o.code} ${sizesText}`;
-  }).join("%0A");
+  // إنشاء نص واتساب بشكل آمن (بدون فقدان طلبات)
+let waText = "VIORA Orders\n\n";
 
+orders.forEach((o,index)=>{
+
+  waText += `طلب رقم ${index+1}\n`;
+if(o.category){
+    waText += `القسم: ${o.category}\n`;
+  }
+  // اسم العطر إن وجد
+if(o.code && o.code.trim() !== ""){
+    waText += `العطر: تصميم خاص\n`;
+}else{
+    waText += `العطر: ${o.nameAr}`;
+    if(o.nameEn) waText += ` - ${o.nameEn}`;
+    waText += `\n`;
+}
+// يظهر الكود فقط إذا كان طلب تصميم
+if(o.code && o.code.trim() !== ""){
+    let parts = o.code.split(" - ");
+waText += `الكود: ${parts[0]}\n`;
+if(parts[1]) waText += `القوة: ${parts[1]}\n`;
+}
+  waText += `الكمية: ${o.sizes.length}\n`;
+  waText += `الأحجام:\n`;
+
+  o.sizes.forEach((size,i)=>{
+    waText += `${i+1}: ${size}\n`;
+  });
+
+  waText += `\n`;
+});
+
+// تحويل النص لرابط آمن
+let waLink = "https://wa.me/963935783658?text=" + encodeURIComponent(waText);
   html += `
     <br>
     <button onclick="back()">رجوع</button>
-    <a target="_blank" href="https://wa.me/963933983149?text=${waText}">
+ <a target="_blank" href="${waLink}">
       <button>إرسال جميع الطلبات عبر واتساب</button>
     </a>
     <button onclick="navigate(showHome,[])">إضافة طلب جديد</button>
@@ -1068,21 +1392,53 @@ function removeOrder(index){
   showOrderSummary();
 }
 window.onload = () => {
-  const appEl = document.getElementById("app");
-  appEl.dataset.busy = "false";
-  window.stack = [];
 
-  changeBackground();
+window.appStarted = false;
+const appEl = document.getElementById("app");
+appEl.dataset.busy = "false";
+window.stack = [];
+
+changeBackground();
+
+// كتابة النص مع النجمة
+setTimeout(() => {
+
+const text = "Luxury in Every Note";
+const el = document.getElementById("luxuryText");
+const star = document.getElementById("luxuryStar");
+const loader = document.getElementById("loader");
+
+if (!el || !star || !loader) return;
+
+el.innerHTML = "";
+let i = 0;
+
+
+// عرض تقريبي لكل حرف (بالبكسل) — ثابت وسلس
+const charWidth = 16;
+
+const interval = setInterval(() => {
+
+if (i < text.length) {
+
+// إضافة الحروف بنفس اتجاه النجمة (يسار ليمين)
+el.innerHTML = text.slice(0, i + 1);
+i++;
+
+// تحريك النجمة مع نهاية كل حرف
+star.style.transform = `translateX(${i * charWidth}px) translateY(-50%)`;
+
+} else {
+
+clearInterval(interval);
 
 setTimeout(() => {
 
-  // إخفاء شاشة الافتتاح
-  document.getElementById("loader").style.opacity = "0";
+  loader.style.opacity = "0";
 
-  setTimeout(()=>{
-    document.getElementById("loader").style.display = "none";
+  setTimeout(() => {
+    loader.style.display = "none";
 
-    // بعد اختفاء الشعار تظهر صفحة زر البداية
     render(`
       <div style="
           margin-top:15vh;
@@ -1111,14 +1467,20 @@ setTimeout(() => {
           Luxury in Every Note
         </div>
 
-        <button onclick="startApp()">ابدأ التجربة</button>
+        <button onclick="startApp()">ابدأ رحلتك مع VIORA</button>
 
       </div>
     `);
 
-  },600);
+  }, 300);
 
-},5000);
+}, 2000);
+
+}
+
+}, 30);
+
+}, 3000);
 };
 // خلفيات الواجهة الافتتاحية (سلايدر فاخر)
 </script>
